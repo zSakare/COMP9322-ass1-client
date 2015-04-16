@@ -26,7 +26,7 @@ public class MarketServiceController {
 		
 		// TODO: Replace null with the results from the web service response.
 		model.addAttribute("returnData", response.getReturn());
-		  
+
 		// View we are returning to, in this case processImportMarketData.jsp 
 		return "processImportMarketData";
 	}
