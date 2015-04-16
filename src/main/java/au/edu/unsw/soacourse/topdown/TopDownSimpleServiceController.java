@@ -30,16 +30,16 @@ public class TopDownSimpleServiceController {
 			ImportMarketDataResponse response = simple.importMarketData(request);
 			marketData.setId("");
 			
-			model.addAttribute("returnData", response.getReturn());
+			model.addAttribute("returnImportMarketData", response.getEventSetId());
 		}
 		
 		if (fileData.getId().equals("fileData")) {
 			DownloadFileRequest request = new ObjectFactory().createDownloadFileRequest();
-			request.setEventSetID(fileData.getEventSetId());
+			request.setEventSetId(fileData.getEventSetId());
 			
 			DownloadFileResponse response = simple.downloadFile(request);
 			fileData.setId("");
-			model.addAttribute("returnData", response.getReturn());
+			model.addAttribute("returnDownloadFileData", response.getDataURL());
 		}
 		
 		return "topdownServicePage";

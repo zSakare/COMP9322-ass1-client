@@ -31,9 +31,7 @@
 			<input type="hidden" th:field="*{id}" name="id" value="marketData"></input>
 			<input type="submit" value="Import">
 		</form>
-		<p>Response: <b><c:out value="${marketData.sec}"></c:out></b>
-			<b><c:out value="${marketData.startDate}"></c:out></b>
-			<b><c:out value="${marketData.endDate}"></c:out></b>
+		<p>Response: <b><c:out value="${returnImportMarketData}"></c:out>
 		</p>
 		
 		<br>
@@ -44,6 +42,6 @@
 			<input type="hidden" th:field="*{id}" name="id" value="fileData"></input>
 			<input type="submit" value="Download">
 		</form>
-		<p>Response: <b><c:out value="${returnData.eventSetId}"></c:out></b></p>
+		<p>Response: <b><c:out value="${returnDownloadFileData}"></c:out></b></p>
 	</body>
 </html>

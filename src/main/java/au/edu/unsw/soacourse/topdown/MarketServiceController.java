@@ -25,7 +25,7 @@ public class MarketServiceController {
 		ImportMarketDataResponse response = simple.importMarketData(request);
 		
 		// TODO: Replace null with the results from the web service response.
-		model.addAttribute("returnData", response.getReturn());
+//		model.addAttribute("returnData", response.getReturn());
 
 		// View we are returning to, in this case processImportMarketData.jsp 
 		return "processImportMarketData";
@@ -35,13 +35,13 @@ public class MarketServiceController {
    public String processDownloadFile(ModelMap model) throws Exception {
       // TODO: Add the creation of a DownloadFile request type and populate it
 	  DownloadFileRequest request = new ObjectFactory().createDownloadFileRequest();
-	  request.setEventSetID("abc-abc-111");
+//	  request.setEventSetID("abc-abc-111");
 
       // TODO: Call the web service 
 	  DownloadFileResponse response = simple.downloadFile(request);
       
       // TODO: Replace null with the results from the web service response.
-      model.addAttribute("returnData", response.getReturn());
+//      model.addAttribute("returnData", response.getReturn());
       
       // View we are returning to, in this case processImportMarketData.jsp 
       return "processDownloadFile";
