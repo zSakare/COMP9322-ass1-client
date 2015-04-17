@@ -64,7 +64,7 @@
 				</p>
 				<hr><br>
 				<h3>Convert Currency</h3>
-<%-- 				<form action="convert" th:action="@{/convert}" th:object="${convertFileData}" method="POST">
+				<form action="convert" th:action="@{/convert}" th:object="${convertFileData}" method="POST">
 					Event Set Id:
 					<input type="text" th:field="*{eventSetId}" name="eventSetId"></input>
 					<br>
@@ -76,7 +76,7 @@
 					<br>
 					<input type="submit" value="Convert">
 				</form>
-				<p>Response:<br></p> --%>
+				<p>Response: <b>${returnConvertFileData}</b></p>
 				<hr><br>
 				
 				<h3>Visualise Market Data</h3>

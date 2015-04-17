@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import au.edu.unsw.soacourse.marketdatautil.CurrencyConvertMarketDataFaultMsg;
+import au.edu.unsw.soacourse.marketdatautil.CurrencyConvertMarketDataRequest;
+import au.edu.unsw.soacourse.marketdatautil.CurrencyConvertMarketDataResponse;
 import au.edu.unsw.soacourse.marketdatautil.MarketDataUtilService;
+import au.edu.unsw.soacourse.marketdatautil.SummariseMarketDataFaultMsg;
 import au.edu.unsw.soacourse.marketdatautil.SummariseMarketDataRequest;
 import au.edu.unsw.soacourse.marketdatautil.SummariseMarketDataResponse;
+import au.edu.unsw.soacourse.marketdatautil.VisualiseMarketDataFaultMsg;
 import au.edu.unsw.soacourse.marketdatautil.VisualiseMarketDataRequest;
 import au.edu.unsw.soacourse.marketdatautil.VisualiseMarketDataResponse;
 
@@ -41,14 +46,20 @@ public class TopDownSimpleServiceController {
 		request.setEndDate(marketData.getEndDate());
 		         
 		// Call the service with the request
-		ImportMarketDataResponse response = simple.importMarketData(request);
-		
-		// Add response to the jsp
-		model.addAttribute("returnImportMarketData", response.getEventSetId());
-		
-		idList.add(response.getEventSetId());
-		
-		model.addAttribute("idList", idList);
+		try {
+			ImportMarketDataResponse response = simple.importMarketData(request);
+			
+			// Add response to the jsp
+			model.addAttribute("returnImportMarketData", response.getEventSetId());
+			
+			idList.add(response.getEventSetId());
+			
+			model.addAttribute("idList", idList);
+		} catch (Exception e) {
+			model.addAttribute("errorCause", ((ImportMarketFaultMsg) e).getFaultInfo().getErrcode());
+			model.addAttribute("errorMessage", e.getMessage());
+			return "error";
+		}
 		
 		return "topdownServicePage";
 	}
@@ -60,11 +71,17 @@ public class TopDownSimpleServiceController {
 		request.setEventSetId(fileData.getEventSetId());
 		
 		// Call the service with the request
-		DownloadFileResponse response = simple.downloadFile(request);
-		
-		// Add response to the jsp
-		model.addAttribute("returnDownloadFileData", response.getDataURL());
-		model.addAttribute("idList", idList);
+		try {
+			DownloadFileResponse response = simple.downloadFile(request);
+			
+			// Add response to the jsp
+			model.addAttribute("returnDownloadFileData", response.getDataURL());
+			model.addAttribute("idList", idList);
+		} catch (Exception e) {
+			model.addAttribute("errorCause", ((DownloadFileFaultMsg) e).getFaultInfo().getErrcode());
+			model.addAttribute("errorMessage", e.getMessage());
+			return "error";
+		}
 		
 		return "topdownServicePage";
 	}
@@ -76,11 +93,17 @@ public class TopDownSimpleServiceController {
 		request.setEventSetId(fileData.getEventSetId());
 		
 		// Call the service with the request
-		SummariseMarketDataResponse response = market.summariseMarketData(request);
-		
-		// Add response to the jsp
-		model.addAttribute("returnSummariseFileData", response);
-		model.addAttribute("idList", idList);
+		try {
+			SummariseMarketDataResponse response = market.summariseMarketData(request);
+			
+			// Add response to the jsp
+			model.addAttribute("returnSummariseFileData", response);
+			model.addAttribute("idList", idList);
+		} catch (Exception e) {
+			model.addAttribute("errorCause", ((SummariseMarketDataFaultMsg) e).getFaultInfo().getErrcode());
+			model.addAttribute("errorMessage", e.getMessage());
+			return "error";
+		}
 		
 		return "topdownServicePage";
 	}
@@ -92,11 +115,43 @@ public class TopDownSimpleServiceController {
 		request.setEventSetId(fileData.getEventSetId());
 		
 		// Call the service with the request
-		VisualiseMarketDataResponse response = market.visualiseMarketData(request);
+		try {
+			VisualiseMarketDataResponse response = market.visualiseMarketData(request);
+			
+			// Add response to the jsp
+			model.addAttribute("returnVisualiseFileData", response.getDataURL());
+			model.addAttribute("idList", idList);
+		} catch (Exception e) {
+			model.addAttribute("errorCause", ((VisualiseMarketDataFaultMsg) e).getFaultInfo().getErrcode());
+			model.addAttribute("errorMessage", e.getMessage());
+			return "error";
+		}
 		
-		// Add response to the jsp
-		model.addAttribute("returnVisualiseFileData", response.getDataURL());
-		model.addAttribute("idList", idList);
+		return "topdownServicePage";
+	}
+	
+	@RequestMapping(value="/convert", method=RequestMethod.POST)
+	public String requestConvertCurrency(@ModelAttribute ConvertFileData fileData, ModelMap model) throws Exception {
+		// Set up a conversion request
+		CurrencyConvertMarketDataRequest request = new au.edu.unsw.soacourse.marketdatautil.ObjectFactory().createCurrencyConvertMarketDataRequest();
+		request.setEventSetId(fileData.getEventSetId());
+		request.setTargetCurrency(fileData.getTargetCurrency());
+		request.setTargetDate(fileData.getTargetDate());
+		
+		// Call the service with the request
+		try {
+			CurrencyConvertMarketDataResponse response = market.currencyConvertMarketData(request);
+			
+			// Add response to the jsp
+			model.addAttribute("returnConvertFileData", response.getEventSetId());
+			
+			idList.add(response.getEventSetId());
+			model.addAttribute("idList", idList);
+		} catch (Exception e) {
+			model.addAttribute("errorCause", ((CurrencyConvertMarketDataFaultMsg) e).getFaultInfo().getErrcode());
+			model.addAttribute("errorMessage", e.getMessage());
+			return "error";
+		}
 		
 		return "topdownServicePage";
 	}
