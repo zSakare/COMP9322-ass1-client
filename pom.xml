@@ -78,9 +78,9 @@
 	                          <wsdlOption>
 	                              <wsdl>http://localhost:8080/COMP9322-ass1/TopDownSimpleService?wsdl</wsdl>
 	                          </wsdlOption>
-                	          <!-- <wsdlOption>
+                	          <wsdlOption>
 	                              <wsdl>http://localhost:8080/COMP9322-ass1/MarketDataUtilService?wsdl</wsdl>
-	                          </wsdlOption> -->
+	                          </wsdlOption>
 	                      </wsdlOptions>
 	                  </configuration>
 	                  <goals>
